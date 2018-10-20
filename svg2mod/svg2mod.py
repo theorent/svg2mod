@@ -528,6 +528,7 @@ class Svg2ModExport( object ):
         self.precision = precision
         self.use_mm = use_mm
         self.dpi = dpi
+        self.pad_number = 1
 
     #------------------------------------------------------------------------
 
