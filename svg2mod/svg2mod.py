@@ -618,6 +618,15 @@ class Svg2ModExport( object ):
                     points, layer, fill, stroke, stroke_width
                 )
 
+            elif isinstance( item, svg.Circle ):
+                print( "    Writing pad")
+                fill, stroke, stroke_width = self._get_fill_stroke( item )
+            #point = transformer.transform_point( point, flip )
+                self._write_circle(
+                    self.transform_point( item.center, flip = False ),
+                    item.rx, layer, stroke_width
+                )
+
             else:
                 print( "Unsupported SVG element: {}".format(
                     item.__class__.__name__
@@ -664,6 +673,28 @@ class Svg2ModExport( object ):
 
         self._write_module_footer( front )
 
+
+    #------------------------------------------------------------------------
+
+    def _write_circle( self, point, r, layer, stroke_width = 0.0 ):
+            if (r > .6):
+                self.output_file.write("\n  (pad {0} thru_hole circle (at {1} {2}) (size {3} {3}) (drill {4}) (layers *.Cu *.Mask) (solder_mask_margin 0.05))".format(
+                self.pad_number,
+                point.x,
+                point.y,
+                r,
+                r - 0.2
+            ) )
+            elif (r > .4):
+                self.output_file.write("\n  (pad {0} smd circle (at {1} {2}) (size {3} {3}) (layers *.Cu *.Mask) (solder_mask_margin 0.05))".format(
+                self.pad_number,
+                point.x,
+                point.y,
+                r
+            ) )
+            self.pad_number = self.pad_number + 1
+
+            #self.output_file.write( "\n  (fp_poly\n    (pts \n" )
 
     #------------------------------------------------------------------------
 
