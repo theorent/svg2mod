@@ -679,12 +679,12 @@ class Svg2ModExport( object ):
 
     def _write_circle( self, point, r, layer, stroke_width = 0.0 ):
             if (r > .6):
-                self.output_file.write("\n  (pad {0} thru_hole circle (at {1} {2}) (size {3} {3}) (drill {4}) (layers *.Cu *.Mask) (solder_mask_margin 0.05))".format(
+                self.output_file.write("\n  (pad {0} thru_hole circle (at {1} {2}) (size {3:.1f} {3:.1f}) (drill {4:.1f}) (layers *.Cu *.Mask) (solder_mask_margin 0.05))".format(
                 self.pad_number,
                 point.x,
                 point.y,
-                r,
-                r - 0.2
+                round(r/2, 1) * 2,
+                round(r/2 - r/5, 1) * 2
             ) )
             elif (r > .4):
                 self.output_file.write("\n  (pad {0} smd circle (at {1} {2}) (size {3} {3}) (layers *.Cu *.Mask) (solder_mask_margin 0.05))".format(
